@@ -12,9 +12,13 @@ const __dirname = dirname(__filename);
 const require = createRequire(import.meta.url);
 
 // Importamos rutas con require
+import informacionRoutes from "./sgrh-api/routes/informacion.js";
+
 import personasRoutes from "./sgrh-api/routes/personas.js";
 import empresasRoutes from "./sgrh-api/routes/empresas.js";
 import gerenteRoutes from "./sgrh-api/routes/gerente.js";
+import quejasRoutes from "./sgrh-api/routes/quejas.js";
+import nominaRoutes from "./sgrh-api/routes/nomina.js";
 
 
 console.log("Ruta actual de ejecución:", __dirname);
@@ -29,9 +33,13 @@ mongoose.connect("mongodb://127.0.0.1:27017/sgrh")
   .catch(err => console.error("❌ Error conectando a MongoDB", err));
 
 // Rutas
+app.use("/api/informacion", informacionRoutes);
+
 app.use("/api/personas", personasRoutes);
 app.use("/api/empresas", empresasRoutes);
 app.use("/api/gerente", gerenteRoutes);
+app.use("/api/quejas", quejasRoutes);
+app.use("/api/nomina", nominaRoutes);
 
 app.listen(3000, () => {
   console.log("🚀 Servidor corriendo en http://localhost:3000");
