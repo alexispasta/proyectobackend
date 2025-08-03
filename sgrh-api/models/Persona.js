@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 
 const personaSchema = new mongoose.Schema({
-  nombre: String,
-  apellido: String,
-  email: String,
+  nombre: { type: String, required: true },
+  apellido: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true }, // 🔹 Nueva contraseña
   telefono: String,
   direccion: String,
   codigo: String,
-  rol: String,
+  rol: { type: String, enum: ["empleado", "rrhh", "gerente", "supervisor"], required: true },
   fecha: String,
   ciudad: String
 });
