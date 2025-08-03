@@ -19,6 +19,9 @@ import empresasRoutes from "./sgrh-api/routes/empresas.js";
 import gerenteRoutes from "./sgrh-api/routes/gerente.js";
 import quejasRoutes from "./sgrh-api/routes/quejas.js";
 import nominaRoutes from "./sgrh-api/routes/nomina.js";
+import permisosRoutes from "./sgrh-api/routes/permisos.js";
+import permisosEmpleadoRoutes from "./sgrh-api/routes/permisosEmpleado.js";
+
 
 
 console.log("Ruta actual de ejecución:", __dirname);
@@ -40,6 +43,10 @@ app.use("/api/empresas", empresasRoutes);
 app.use("/api/gerente", gerenteRoutes);
 app.use("/api/quejas", quejasRoutes);
 app.use("/api/nomina", nominaRoutes);
+app.use("/api/permisos", permisosRoutes);
+app.use("/api/permisosempleado", permisosEmpleadoRoutes);
+
+
 
 app.listen(3000, () => {
   console.log("🚀 Servidor corriendo en http://localhost:3000");
