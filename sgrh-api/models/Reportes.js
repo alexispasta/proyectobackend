@@ -4,7 +4,8 @@ const ReporteSchema = new mongoose.Schema(
   {
     asunto: { type: String, required: true },
     descripcion: { type: String, required: true },
-    empleadoId: { type: mongoose.Schema.Types.ObjectId, ref: "Persona" },
+    empleadoId: { type: mongoose.Schema.Types.ObjectId, ref: "Persona", required: true },
+    empresaId: { type: mongoose.Schema.Types.ObjectId, ref: "Empresa", required: true }, // 🔹 agregado
     fechaReporte: { type: Date, default: Date.now },
   },
   { timestamps: true }
