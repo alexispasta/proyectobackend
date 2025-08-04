@@ -53,5 +53,18 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ error: "Error al actualizar empleado" });
   }
 });
+// GET /api/personas/:id
+router.get("/:id", async (req, res) => {
+  try {
+    const persona = await Persona.findById(req.params.id).select("-password"); // 🔹 No enviamos la contraseña
+    if (!persona) return res.status(404).json({ error: "Usuario no encontrado" });
+
+    res.json(persona);
+  } catch (error) {
+    console.error("❌ Error al obtener usuario:", error.message);
+    res.status(500).json({ error: "Error al obtener usuario" });
+  }
+});
+
 
 export default router;
