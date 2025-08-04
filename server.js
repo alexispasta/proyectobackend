@@ -24,6 +24,8 @@ import permisosEmpleadoRoutes from "./sgrh-api/routes/permisosEmpleado.js";
 import reportesRoutes from "./sgrh-api/routes/reportes.js";
 import asistenciaRoutes from "./sgrh-api/routes/asistencia.js";
 import loginRoutes from "./sgrh-api/routes/login.js";
+import informesRoutes from "./sgrh-api/routes/informes.js";
+
 
 
 
@@ -53,6 +55,7 @@ app.use("/api/permisosempleado", permisosEmpleadoRoutes);
 app.use("/api/reportes", reportesRoutes);
 app.use("/api/gerente/asistencia", asistenciaRoutes);
 app.use("/api/login", loginRoutes);
+app.use("/api/informes", informesRoutes);
 
 
 
