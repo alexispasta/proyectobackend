@@ -4,12 +4,11 @@ import Persona from "../models/Persona.js";
 
 const router = express.Router();
 
-// POST /api/personas
+// POST /api/personas - Crear persona
 router.post("/", async (req, res) => {
   try {
     console.log("📩 Datos persona recibidos:", req.body);
 
-    // Encriptar la contraseña antes de guardar
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
     const nuevaPersona = new Persona({
@@ -25,22 +24,46 @@ router.post("/", async (req, res) => {
   }
 });
 
-// GET /api/personas
+// ✅ Obtener personas por empresa (primero)
+router.get("/empresa/:empresaId", async (req, res) => {
+  try {
+    const { empresaId } = req.params;
+    const personas = await Persona.find({ empresaId }).select("-password");
+    res.json(personas);
+  } catch (error) {
+    console.error("❌ Error al obtener personas por empresa:", error.message);
+    res.status(500).json({ error: "Error al obtener personas de la empresa" });
+  }
+});
+
+// GET /api/personas - Obtener todas
 router.get("/", async (req, res) => {
   try {
-    const personas = await Persona.find().select("-password"); // 🔹 No enviamos la contraseña
+    const personas = await Persona.find().select("-password");
     res.json(personas);
   } catch (err) {
     res.status(500).json({ error: "Error al obtener personas" });
   }
 });
 
-// PUT /api/personas/:id
+// GET /api/personas/:id
+router.get("/:id", async (req, res) => {
+  try {
+    const persona = await Persona.findById(req.params.id).select("-password");
+    if (!persona) return res.status(404).json({ error: "Usuario no encontrado" });
+
+    res.json(persona);
+  } catch (error) {
+    console.error("❌ Error al obtener usuario:", error.message);
+    res.status(500).json({ error: "Error al obtener usuario" });
+  }
+});
+
+// PUT /api/personas/:id - Actualizar persona
 router.put("/:id", async (req, res) => {
   try {
     const updateData = { ...req.body };
 
-    // Si envían password, la encriptamos
     if (updateData.password) {
       updateData.password = await bcrypt.hash(updateData.password, 10);
     }
@@ -53,18 +76,5 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ error: "Error al actualizar empleado" });
   }
 });
-// GET /api/personas/:id
-router.get("/:id", async (req, res) => {
-  try {
-    const persona = await Persona.findById(req.params.id).select("-password"); // 🔹 No enviamos la contraseña
-    if (!persona) return res.status(404).json({ error: "Usuario no encontrado" });
-
-    res.json(persona);
-  } catch (error) {
-    console.error("❌ Error al obtener usuario:", error.message);
-    res.status(500).json({ error: "Error al obtener usuario" });
-  }
-});
-
 
 export default router;

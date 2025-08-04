@@ -1,10 +1,21 @@
-// sgrh-api/routes/nomina.js
 import express from "express";
 import Nomina from "../models/Nomina.js";
 
 const router = express.Router();
 
-// Obtener toda la nómina
+// ✅ Obtener nómina por empresa (primero)
+router.get("/empresa/:empresaId", async (req, res) => {
+  try {
+    const { empresaId } = req.params;
+    const nominas = await Nomina.find({ empresaId });
+    res.json(nominas);
+  } catch (error) {
+    console.error("❌ Error al obtener nómina por empresa:", error.message);
+    res.status(500).json({ error: "Error al obtener nómina de la empresa" });
+  }
+});
+
+// GET /api/nomina - Obtener toda la nómina
 router.get("/", async (req, res) => {
   try {
     const nomina = await Nomina.find();
@@ -14,7 +25,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Crear un registro de nómina
+// POST /api/nomina - Crear un registro de nómina
 router.post("/", async (req, res) => {
   try {
     const nuevoRegistro = new Nomina(req.body);
@@ -25,7 +36,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Editar un registro de nómina
+// PUT /api/nomina/:id - Editar un registro de nómina
 router.put("/:id", async (req, res) => {
   try {
     const actualizado = await Nomina.findByIdAndUpdate(req.params.id, req.body, { new: true });

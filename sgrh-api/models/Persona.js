@@ -10,7 +10,9 @@ const personaSchema = new mongoose.Schema({
   codigo: String,
   rol: { type: String, enum: ["empleado", "rrhh", "gerente", "supervisor"], required: true },
   fecha: String,
+  empresaId: { type: mongoose.Schema.Types.ObjectId, ref: "Empresa", required: true },
   ciudad: String
+  
 });
 
 export default mongoose.model("Persona", personaSchema);

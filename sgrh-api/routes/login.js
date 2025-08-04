@@ -21,11 +21,14 @@ router.post("/", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password || "");
     if (!isMatch) return res.status(401).json({ error: "Contraseña incorrecta" });
 
-    // 3️⃣ Responder sin enviar el hash de contraseña
+    // 3️⃣ Responder con la estructura que espera el frontend
     res.json({
-      message: "Login exitoso",
-      userId: user._id,
-      rol: user.rol
+      usuario: {
+        _id: user._id,
+        rol: user.rol,
+        empresaId: user.empresaId || null
+      },
+      message: "Login exitoso"
     });
 
   } catch (error) {
